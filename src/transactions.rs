@@ -1,4 +1,4 @@
-use lazy_static::lazy_static;
+use std::sync::LazyLock;
 
 /// Test vector data for transaction parsing tests
 #[derive(Debug, Clone)]
@@ -18,9 +18,8 @@ pub struct TestVector {
 }
 
 // From https://github.com/zingolabs/zcash-test-vectors/plain_transactions/plain_transactions.py
-lazy_static! {
-    #[allow(missing_docs)]
-    pub static ref TEST_VECTORS: Vec<TestVector> = vec![
+#[allow(missing_docs)]
+pub static TEST_VECTORS: LazyLock<Vec<TestVector>> = LazyLock::new(|| vec![
         TestVector {
             description: "Sprout transaction v1 #1",
             version: 1,
@@ -3657,8 +3656,7 @@ lazy_static! {
                 0x57, 0xf7, 0x8c, 0x29, 0xdb, 0x65, 0xd3, 0xf8, 0x8b, 0xec, 0xbb, 0xed, 0x02, 0x00
             ],
         },
-    ];
-}
+    ]);
 
 /// Returns reference to transaction test vectors
 #[allow(missing_docs)]
